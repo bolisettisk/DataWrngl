@@ -7,7 +7,7 @@ destpath <- file.path(getwd(), filename)
 
 download.file(url, filename)
 
-tmp_filename <- tempfile()
+tmp_filename <- tempfile() #also see tempdir()
 download.file(url, temp_filename)
 dat <- read_csv(tmp_filename)
 file.remove(tmp_filename)
