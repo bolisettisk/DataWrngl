@@ -22,3 +22,5 @@ path <-  system.file("extdata", package = "dslabs")
 x <- scan(file.path(path, filename), sep = ",", what = "c")
 x[1:10]
 
+# Checking if this will be overwritten
+
