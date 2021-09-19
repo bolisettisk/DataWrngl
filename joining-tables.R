@@ -16,7 +16,7 @@ cat("\014")
 head(tab)
 cat("\014")
 
-tab %>% ggplot(aes(population/10^6, ev, label = abb)) + geom_point() + geom_text_repel() + scale_x_continuous(trans = "log2") + scale_y_continuous(trans = "log2") + geom_smooth(method = "lm", se = FALSE)
+tab %>% ggplot(aes(population/10^6, ev, label = abb)) + geom_point() + geom_text_repel(max.overlaps = 25) + scale_x_continuous(trans = "log2") + scale_y_continuous(trans = "log2") + geom_smooth(method = "lm", se = FALSE)
   
 cat("\14")
 tab1 <- slice(murders, 1:6) %>% select(state, population)
