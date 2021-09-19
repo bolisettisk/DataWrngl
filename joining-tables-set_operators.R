@@ -54,5 +54,19 @@ tab_2 <- tab[3:7,]
 dplyr::setdiff(tab_1, tab_2)
 
 
+#---------------------------------------------------------------------------------------------------------------------
+# setequal
+
+cat("\014")
+setequal(1:5, 1:6)
+# FALSE
+setequal(1:5, 5:1)
+# TRUE
+
+# When applied to data frames that are not equal, regardless of order, the dplyr version provides a useful message letting us know how the sets are different
+dplyr::setequal(tab_1, tab_2)
+
+
+
 
 
