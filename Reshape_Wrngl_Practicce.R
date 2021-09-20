@@ -7,7 +7,7 @@ wide_data <- read_csv(filename)
 
 new_tidy_data <- wide_data %>% pivot_longer(-country, names_to = "year", values_to = "fertility") %>% mutate(year = as.integer(year))
 #new_tidy_data <- wide_data %>% gather(year, fertility, `1960`:`2015`)
-new_tidy_data <- wide_data %>% gather(year, fertility, -country)
+#new_tidy_data <- wide_data %>% gather(year, fertility, -country)
 head(new_tidy_data)
 new_tidy_data
 
