@@ -30,6 +30,7 @@ tab[[1]]
 tab <- tab[[1]] %>% html_table
 class(tab)
 tab <- tab %>% setNames(c("state", "population", "total", "murder_rate"))
+tab <- tab %>% setNames(c("state", "population", "total", "murders", "gun_murders", "gun_ownership", "total_rate", "murder_rate", "gun_murder_rate"))
 cat("\014")
 head(tab)
 
