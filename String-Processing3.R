@@ -41,4 +41,4 @@ s <- c(yes, no)
 str_replace(s, "^([12])\\s*,\\s*(\\d*)$", "\\1\\.\\2")
 cat("\014")
 
-str_trim("5 ' 9 ")
+str_trim(" 5 ' 9 ")
