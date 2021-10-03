@@ -103,10 +103,3 @@ new_heights %>%
 
 
 new_heights %>% arrange(height) %>% head(n=7)
-
-
-
-
-
-
-
