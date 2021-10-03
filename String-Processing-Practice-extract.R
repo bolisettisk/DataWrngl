@@ -5,6 +5,7 @@ library(rvest)
 library(dplyr)
 
 
+
 convert_format <- function(s){
   s %>%
     str_replace("feet|foot|ft", "'") %>% #convert feet symbols to '
@@ -39,11 +40,11 @@ not_inches <- function(x, smallest = 50, tallest = 84){
   ind <- is.na(inches) | inches < smallest | inches > tallest
   ind
 }
-
+cat("\014")
 pattern <- "^([4-7])\\s*'\\s*(\\d+\\.?\\d*)$"
 smallest <- 50
 tallest <- 84
-new_heights <- reported_heights %>% 
+new_heights <- reported_heights %>%
   mutate(original = height, height = words_to_numbers(height) %>% convert_format()) %>% 
   extract(height, c("feet", "inches"), regex = pattern, remove = FALSE) %>% 
   mutate_at(c("height", "feet", "inches"), as.numeric) %>% 
@@ -53,14 +54,13 @@ new_heights <- reported_heights %>%
     !is.na(height) & between(height/2.54, smallest, tallest) ~ height/2.54, #centimeters
     !is.na(height) & between(height*100/2.54, smallest, tallest) ~ height*100/2.54, #meters
     !is.na(guess) & inches < 12 & between(guess, smallest, tallest) ~ guess, #feet'inches
-    TRUE ~ as.numeric(NA))) %>% 
+    TRUE ~ as.numeric(NA))) %>%
   select(-guess)
 cat("\014")
 new_heights %>%
   filter(not_inches(original)) %>%
-  select(original, height) %>% 
+  select(original, height) %>%
   arrange(height) %>%
   View()
-
 
 new_heights %>% arrange(height) %>% head(n=7)
