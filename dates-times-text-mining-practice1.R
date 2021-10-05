@@ -30,4 +30,8 @@ tibble(date = dates, month = month(dates), day = day(dates), year = year(dates))
 
 month(dates, label = TRUE)
 
+cat("\014")
+x <- 01052021
+dmy(x)
+
 
