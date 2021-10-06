@@ -19,8 +19,17 @@ names(trump_tweets)
 trump_tweets$text[16413] %>% str_wrap(width = options()$width) %>% cat
 trump_tweets %>% count(source) %>% arrange(desc(n)) %>% head(5)
 
-cat("\014")
+
 
 campaign_tweets <- trump_tweets %>% extract(source, "source", "Twitter for (.*)") %>% filter(source %in% c("Android", "iPhone") & created_at >= ymd("2015-06-17") & created_at < ymd("2016-11-08")) %>% filter(!is_retweet) %>% arrange(created_at) %>% as.tibble()
-campaign_tweets
+
+cat("\014")
+
+
+campaign_tweets %>% mutate(hour = hour(with_tz(created_at, "EST"))) %>% count(source, hour) %>% group_by(source) %>% mutate(percent = n/sum(n)) %>% ungroup %>% ggplot(aes(hour, percent, color = source)) + geom_line() + geom_point() + scale_y_continuous(labels = percent_format()) + labs(x = "hour of the day (EST)", y = "% of tweets", colour = "")
+
+
+
+
+
 
