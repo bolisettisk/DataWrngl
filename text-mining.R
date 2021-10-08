@@ -4,6 +4,7 @@ library(scales)
 library(dslabs)
 library(tidytext)
 library(textdata)
+library(broom)
 
 # url <- 'http://www.trumptwitterarchive.com/data/realdonaldtrump/%s.json'
 # trump_tweets <- map(2009:2017, ~sprintf(url, .x)) %>%
@@ -117,7 +118,13 @@ sentiment_counts %>%
          or = Android/iPhone) %>%
   arrange(desc(or))
 
+cat("\014")
 
-
-
+log_or <- sentiment_counts %>% mutate(log_or = log((Android / (sum(Android) - Android)) / 
+                                                     (iPhone / (sum(iPhone) - iPhone))),
+                                      se = sqrt(1/Android + 1/(sum(Android) - Android) + 
+                                                  1/iPhone + 1/(sum(iPhone) - iPhone)),
+                                      conf.low = log_or - qnorm(0.975)*se,
+                                      conf.high = log_or + qnorm(0.975)*se) %>%
+  arrange(desc(log_or))
 
