@@ -3,6 +3,7 @@ library(lubridate)
 library(scales)
 library(dslabs)
 library(tidytext)
+library(textdata)
 
 # url <- 'http://www.trumptwitterarchive.com/data/realdonaldtrump/%s.json'
 # trump_tweets <- map(2009:2017, ~sprintf(url, .x)) %>%
@@ -80,7 +81,41 @@ tweet_words <- campaign_tweets %>%
            !str_detect(word, "^\\d+$")) %>%
   mutate(word = str_replace(word, "^'", ""))
 
+cat("\014")
+android_iphone_or <- tweet_words %>% count(word, source) %>% pivot_wider(names_from = "source", values_from = "n", values_fill = 0) %>% mutate(or = (Android + 0.5) / (sum(Android) - Android + 0.5) / ((iPhone + 0.5) / (sum(iPhone) - iPhone + 0.5))) 
 
+android_iphone_or %>% arrange(desc(or))
+android_iphone_or %>% arrange(or)
+android_iphone_or %>% filter(Android+iPhone > 100) %>%
+  arrange(desc(or))
+cat("\014")
+android_iphone_or %>% filter(Android+iPhone > 100) %>%
+  arrange(or)
+
+
+# Sentiment analysis
+cat("\014")
+get_sentiments("bing")
+get_sentiments("afinn")
+get_sentiments("loughran") %>% count(sentiment)
+get_sentiments("nrc") %>% count(sentiment)
+
+
+
+nrc <- get_sentiments("nrc") %>% select(word, sentiment)
+nrc
+tweet_words %>% inner_join(nrc, by = "word") %>% select(source, word, sentiment) %>% sample_n(5)
+
+cat("\014")
+
+sentiment_counts <- tweet_words %>% left_join(nrc, by = "word") %>% count(source, sentiment) %>% pivot_wider(names_from = "source", values_from = "n") %>% mutate(sentiment = replace_na(sentiment, replace = "none"))
+sentiment_counts %>% head(20)
+
+sentiment_counts %>%
+  mutate(Android = Android / (sum(Android) - Android) , 
+         iPhone = iPhone / (sum(iPhone) - iPhone), 
+         or = Android/iPhone) %>%
+  arrange(desc(or))
 
 
 
